@@ -5,7 +5,9 @@ import 'package:video_test/repositories/feed_repository.dart';
 
 class FeedCubit extends Cubit<FeedState> {
   final FeedRepository feedRepository;
-  FeedCubit(this.feedRepository) : super(FeedStateInitial());
+  FeedCubit(this.feedRepository) : super(FeedStateInitial()) {
+    init();
+  }
 
   void init() async {
     emit(FeedsLoading());
@@ -20,6 +22,7 @@ class FeedCubit extends Cubit<FeedState> {
 
   Future<void> refresh() async {
     emit(FeedsLoading(feeds: state.feeds));
+    await Future.delayed(const Duration(seconds: 2));
     try {
       final feeds = await feedRepository.getFeeds();
       emit(FeedsLoaded(feeds: feeds));

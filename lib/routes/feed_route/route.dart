@@ -22,9 +22,9 @@ class FeedRoute extends StatelessWidget {
               }
             }
           },
-          child: BlocBuilder(
+          child: BlocBuilder<FeedCubit, FeedState>(
             builder: (context, state) {
-              if (state is FeedsLoaded) {
+              if (state is FeedsLoaded || (state.feeds?.isNotEmpty ?? false)) {
                 return RefreshIndicator(
                   onRefresh: () async {
                     await context.read<FeedCubit>().refresh();
